@@ -71,49 +71,72 @@
 
             </div>
 
+
+            <!-- Add Class -->
             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab"
                 tabindex="0">
 
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Class Time Start: </label>
-                    <span><input type="time" class="form-control" id="exampleFormControlInput1">
-                        <span>to</span>
-
-                        <input type="time" class="form-control" id="exampleFormControlInput1"></span>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Schedule of class</option>
+                        <option value="1">9AM to 11AM</option>
+                        <option value="2">1PM to 3PM</option>
+                        <option value="3">2PM to 4PM</option>
+                    </select>
+                    <!-- specify other time -->
+                    <input type="time" class="form-control" id="exampleFormControlInput1">
+                    <span>to</span>
+                    <input type="time" class="form-control" id="exampleFormControlInput1">
                 </div>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Schedule of class</option>
-                    <option value="1">M W F</option>
-                    <option value="2">T T S</option>
-                    <option value="3">Weedend</option>
-                </select>
+
+                <div>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Schedule of class</option>
+                        <option value="1">M W F</option>
+                        <option value="2">T T S</option>
+                        <option value="3">Weedend</option>
+                    </select>
+                    <input type="text" name="" id="Specify other">
+                </div>
+
+
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Teacher Name: </label>
                     <select class="form-select" aria-label="Default select example">
                         <option selected>Select Teacher</option>
                         <option value="1">Sir Ghous</option>
                         <option value="2">Sir Kashif Suleman</option>
                         <option value="3">Sir Haider</option>
                     </select>
+                    <input type="text" placeholder="Specify Other">
+                </div>
+
+                <div>
                     <select class="form-select" aria-label="Default select example">
                         <option selected>Select Section</option>
                         <option value="1">A - from Database</option>
                         <option value="2">B</option>
                         <option value="3">C</option>
                     </select>
-
+                    <input type="text" placeholder="Specify Other">
+                </div>
+                <div>
                     <select class="form-select" aria-label="Default select example">
                         <option selected>Select Course</option>
                         <option value="1">A - from Database</option>
                         <option value="2">B</option>
                         <option value="3">C</option>
                     </select>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Select Batch</option>
-                        <option value="1">1 - from Database</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
+                    <input type="text" placeholder="Specify Other">
+                    <div>
+
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Select Batch</option>
+                            <option value="1">1 - from Database</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                        <input type="text" placeholder="Specify Others">
+                    </div>
 
                     <button type="button" class="btn btn-primary">Add Class</button>
 
