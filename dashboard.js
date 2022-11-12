@@ -13,6 +13,11 @@ import {
     getDoc,
     getDocs,
     collection,
+    onSnapshot,
+    query,
+    where,
+    deleteDoc,
+    updateDoc,
 } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-firestore.js";
 
 import {
@@ -45,6 +50,7 @@ let classes = document.getElementById("classes")
 classes.innerHTML = `
 <option value="0" disabled selected>Open this select menu</option>
 `
+let obj = {}
 let count = 0;
 querySnapshot.forEach((doc) => {
     classes.innerHTML += `
@@ -53,12 +59,13 @@ querySnapshot.forEach((doc) => {
 
     console.log(`${doc.id} => ${doc.data()}`);
 });
-let obj = {}
 
 
 let addStudent = async () => {
     let studentData = document.querySelectorAll("#v-pills-profile input")
     console.log(studentData)
+    let course = document.getElementById("classes")
+
     for (let i = 0; i < studentData.length; i++) {
         console.log(studentData[i].value)
         if (studentData[i].value.trim() == "") {
@@ -66,12 +73,12 @@ let addStudent = async () => {
         }
         else {
             obj = {
-                studentName: studentData[++i].value,
-                fatherName: studentData[++i].value,
-                rollNum: studentData[++i].value,
-                contactNo: studentData[++i].value,
-                CNIC: studentData[++i].value,
-                course: "",
+                studentName: document.getElementById("studentName").value,
+                fatherName: document.getElementById("fatherName").value,
+                rollNum: document.getElementById("rollNum").value,
+                contactNo: document.getElementById("contact").value,
+                CNIC: document.getElementById("cnic").value,
+                course: course.options[course.selectedIndex].value,
                 url: ""
             }
             setTimeout(() => {
@@ -81,14 +88,6 @@ let addStudent = async () => {
         }
     }
 
-
-
-
-
-    let course = document.getElementById("classes")
-    let courseDetail = course.options[course.selectedIndex].value;
-    console.log(course.value)
-
     let file = document.querySelector("#studentPic").files[0]
     console.log(file)
     let url = await uploadFiles(file);
@@ -97,14 +96,11 @@ let addStudent = async () => {
     console.log(url)
 
     const docRef = await addDoc(collection(db, "studentData"), obj);
-    swal(`Class Added Successfully`)
+    swal(`Student Added Successfully`)
     console.log("Document written with ID: ", docRef.id);
-    //  copied
-
-
+    event.preventDefault()
 
 }
-
 
 const uploadFiles = (file) => {
     event.preventDefault();
@@ -139,34 +135,6 @@ const uploadFiles = (file) => {
         );
     });
 };
-
-
-
-
-
-
-
-
-
-
-
-// if (studentData[0].trim() && studentData[1].trim() && studentData[2].trim() && studentData[3].trim() && studentData[4].trim() && studentData[5].trim()) {
-//     console.log("hi")
-// }
-// // studentData.forEach(element => {
-// //     console.log("hi")
-// //     const docRef = await addDoc(collection(db, "classList"), {
-// //         timing: result1,
-// //         schedule: result2,
-// //         current_teacher: result3,
-// //         section: result4,
-// //         course: result5,
-// //         batch: result5
-// //     });
-// swal(`Class Added Successfully`)
-// console.log("Document written with ID: ", docRef.id);
-
-
 
 let addClass = async () => {
     // console.log(event.target)
@@ -212,8 +180,50 @@ let addClass = async () => {
 let attendance = () => {
 }
 
+let showPreview = () => {
+    const q = query(collection(db, "studentData"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        document.getElementById("tableStudent").innerHTML = `
+        <tr>
+        <th>S.No</th>
+        <th>Roll No</th>
+        <th>Student Name</th>
+        <th>Father Name</th>
+        <th>Contact No</th>
+        <th>CNIC No</th>
+        <th>Course</th>
+        <th>Delete</th>
+        <th>Edit</th>
+        </tr>
+`
+        count = 0
+        querySnapshot.forEach((doc) => {
+
+            document.getElementById("tableStudent").innerHTML += `
+             <tr>
+                <td>${++count}</td>
+                <td>${doc.data().rollNum}</td>
+                <td>${doc.data().studentName}</td>
+                <td>${doc.data().fatherName}</td>
+                <td>${doc.data().contactNo}</td>
+                <td>${doc.data().CNIC}</td>
+                <td>${doc.data().course}</td>
+                <td><button onclick="deleteStudent('${doc.id}')">Delete</button></td>
+                <td><button onclick="editStudent('${doc.id}','${doc.data().studentName}','${doc.data().fatherName}','${doc.data().rollNum}','${doc.data().contactNo}','{doc.data().CNIC}','${doc.data().course}')" class="btn-close" data-bs-dismiss="modal" aria-label="Close">>Edit</button></td>
+            </tr>
+            `
+            console.log(doc.id)
+        });
+    });
+
+}
+showPreview()
 
 
+let deleteStudent = async (document) => {
+    await deleteDoc(doc(db, "studentData", document));
+    console.log(document)
+}
 
 //if logout goto login page
 onAuthStateChanged(auth, (user) => {
@@ -241,9 +251,38 @@ if (signoutBtn) {
     })
 }
 
+let editStudent = async (document, studentName, fatherName, rollNum, contactNo, CNIC, course) => {
+    const updateData = doc(db, "studentData", document);
+    console.log(rollNum)
+    console.log(document.getElementById("studentNameEdit"))
+    document.getElementById("studentNameEdit").value = studentName
+    document.getElementById("fatherNameEdit").value = fatherName
+    document.getElementById("cnicNumEdit").value = CNIC
+    document.getElementById("contactNumEdit").value = contactNo
+    document.getElementById("courseEdit").value = course
+    await updateDoc(updateData, {
+    });
+}
 
-
-
-
+window.editStudent = editStudent
 window.addClass = addClass;
 window.addStudent = addStudent;
+window.deleteStudent = deleteStudent
+
+
+let signoutbtn = document.getElementById('signoutbtn')
+signoutbtn.addEventListener("click", () => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            const uid = user.uid;
+            // window.location = "index.html";
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });
+})

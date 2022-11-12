@@ -6,3 +6,31 @@
     /* display: none; */
     display: none;
 }
+
+.header {
+    padding: 20px;
+}
+
+.signoutbtn {
+    text-align: right;
+}
+
+.img_wrapper img {
+    width: 135px;
+}
+
+input[type="text"],
+select {
+    width: 35%;
+    padding: 12px;
+    height: 50px;
+    vertical-align: middle;
+    border-radius: 2px;
+}
+
+table#tableStudent tr th {
+    padding: 15px 10px;
+    width: 200px;
+    text-align: center;
+    background: #dddddd3b;
+}
