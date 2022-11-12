@@ -37,6 +37,12 @@ querySnapshot.forEach((doc) => {
     console.log(`${doc.id} => ${doc.data()}`);
 });
 
+let attendance = ()=> {
+    
+}
+
+
+
 onAuthStateChanged(auth, (user) => {
     if (user) {
         const uid = user.uid;
