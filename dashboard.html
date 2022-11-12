@@ -7,13 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <title>SMIT Admin</title>
 </head>
 
 <body>
 
     <div class="d-flex align-items-start">
+
+        <!-- buttons left panel -->
         <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home"
                 type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Attendance</button>
@@ -22,132 +24,177 @@
 
             <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages"
                 type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Add Class: </button>
+            <button class="nav-link" id="v-pills-preview-tab" data-bs-toggle="pill" data-bs-target="#v-pills-preview"
+                type="button" role="tab" aria-controls="v-pills-preview" aria-selected="false"> Preview Student
+                Data</button>
             <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings"
                 type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Search Student
                 History</button>
         </div>
+
+        <!-- Preview Data -->
         <div class="tab-content" id="v-pills-tabContent">
+
+            <!-- attendance -->
             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"
                 tabindex="0">
-                a
-
-
-            </div>
-            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"
-                tabindex="0">
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Name: </label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Student Name">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Father Name: </label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Father Name">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Roll No: </label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="KHI0000">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Contact No: </label>
-                    <input type="number" class="form-control" id="exampleFormControlInput1"
-                        placeholder="03001234567 - Must be 11 digit">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">CNIC No: </label>
-                    <input type="number" class="form-control" id="exampleFormControlInput1"
-                        placeholder="4220112345678 - Must be 13 digit">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Select Picture: </label>
-                    <input type="file" class="form-control" id="exampleFormControlInput1">
-                </div>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One from Database</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <input type="text" id="" placeholder="Enter Roll No: KHI0000">
+                <select name="" id="">
+                    <option disabled selected>Availaibility</option>
+                    <option>Present</option>
+                    <option>Late</option>
+                    <option>Leave</option>
                 </select>
                 <button type="button" class="btn btn-primary">Add Student</button>
 
             </div>
 
+            <!-- add student -->
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"
+                tabindex="0">
+                <form action="" id="studentData">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Name: </label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" name="stdName"
+                            placeholder="Student Name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Father Name: </label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Father Name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Roll No: </label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="KHI0000">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Contact No: </label>
+                        <input type="number" class="form-control" id="exampleFormControlInput1"
+                            placeholder="03001234567 - Must be 11 digit">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">CNIC No: </label>
+                        <input type="number" class="form-control" id="exampleFormControlInput1"
+                            placeholder="4220112345678 - Must be 13 digit">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Select Picture: </label>
+                        <input type="file" class="form-control" id="exampleFormControlInput1">
+                    </div>
+                    <select id="classes" class="form-select" aria-label="Default select example">
+                        <option value="0" disabled selected>Wait for the data...</option>
+                    </select>
+                    <button type="button" onclick="addStudent()" class="btn btn-primary">Add Student</button>
+                </form>
+            </div>
 
             <!-- Add Class -->
             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab"
                 tabindex="0">
 
                 <div class="mb-3">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Schedule of class</option>
+                    <select id="timing" class="form-select" aria-label="Default select example">
+                        <option value="0" disabled selected>Schedule of class</option>
                         <option value="1">9AM to 11AM</option>
                         <option value="2">1PM to 3PM</option>
                         <option value="3">2PM to 4PM</option>
                     </select>
                     <!-- specify other time -->
-                    <input type="time" class="form-control" id="exampleFormControlInput1">
-                    <span>to</span>
-                    <input type="time" class="form-control" id="exampleFormControlInput1">
+                    <!-- <input type="time" class="form-control" id="exampleFormControlInput1"> -->
+                    <!-- <span>to</span> -->
+                    <!-- <input type="time" class="form-control" id="exampleFormControlInput1"> -->
                 </div>
 
                 <div>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Schedule of class</option>
-                        <option value="1">M W F</option>
-                        <option value="2">T T S</option>
-                        <option value="3">Weedend</option>
+                    <select id="schedule" class="form-select" aria-label="Default select example">
+                        <option value="0" disabled selected>Schedule of class</option>
+                        <option>M W F</option>
+                        <option>T T S</option>
+                        <option>Weedend</option>
                     </select>
-                    <input type="text" name="" id="Specify other">
+                    <!-- <input type="text" name="" id="Specify other"> -->
                 </div>
 
 
                 <div class="mb-3">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Select Teacher</option>
-                        <option value="1">Sir Ghous</option>
-                        <option value="2">Sir Kashif Suleman</option>
-                        <option value="3">Sir Haider</option>
+                    <select id="teacher" class="form-select" aria-label="Default select example">
+                        <option value="0" disabled selected>Select Teacher</option>
+                        <option>Sir Ghous</option>
+                        <option>Sir Kashif Suleman</option>
+                        <option>Sir Haider</option>
                     </select>
-                    <input type="text" placeholder="Specify Other">
+                    <!-- <input type="text" placeholder="Specify Other"> -->
                 </div>
 
                 <div>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Select Section</option>
-                        <option value="1">A - from Database</option>
-                        <option value="2">B</option>
-                        <option value="3">C</option>
+                    <select id="section" class="form-select" aria-label="Default select example">
+                        <option value="0" disabled selected>Select Section</option>
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
                     </select>
-                    <input type="text" placeholder="Specify Other">
+                    <!-- <input type="text" placeholder="Specify Other"> -->
                 </div>
                 <div>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Select Course</option>
-                        <option value="1">A - from Database</option>
-                        <option value="2">B</option>
-                        <option value="3">C</option>
+                    <select id="course" class="form-select" aria-label="Default select example">
+                        <option value="0" disabled selected>Select Course</option>
+                        <option>Web & Mobile</option>
+                        <option>Mobile Repairing</option>
+                        <option>CCO</option>
                     </select>
-                    <input type="text" placeholder="Specify Other">
-                    <div>
-
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Select Batch</option>
-                            <option value="1">1 - from Database</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                        <input type="text" placeholder="Specify Others">
-                    </div>
-
-                    <button type="button" class="btn btn-primary">Add Class</button>
-
+                    <!-- <input type="text" placeholder="Specify Other"> -->
                 </div>
 
+                <div>
+                    <select id="batch" class="form-select" aria-label="Default select example">
+                        <option value="0" disabled selected>Select Batch</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                    </select>
+                    <!-- <input type="tsext" placeholder="Specify Others"> -->
+                </div>
 
+                <button type="button" onclick="addClass()" class="btn btn-primary">Add Class</button>
 
             </div>
+
+            <!-- All Student Data Preview -->
+            <div class="tab-pane fade" id="v-pills-preview" role="tabpanel" aria-labelledby="v-pills-preview-tab"
+                tabindex="0">
+                d
+            </div>
+
+            <!-- Search Student history -->
             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab"
-                tabindex="0">d</div>
+                tabindex="0">
+                <div>
+
+                    <input type="text" placeholder="e.g: KHI0000">
+                    <input type="button" value="Search">
+                </div>
+                <div class="card-show hide">
+                    <div class="card" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's
+                                content.</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">An item</li>
+                            <li class="list-group-item">A second item</li>
+                            <li class="list-group-item">A third item</li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 
 
