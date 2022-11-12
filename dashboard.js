@@ -15,6 +15,13 @@ import {
     collection,
 } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-firestore.js";
 
+import {
+    getStorage,
+    ref,
+    uploadBytesResumable,
+    getDownloadURL,
+} from "https://www.gstatic.com/firebasejs/9.11.0/firebase-storage.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyBxUgfFLuGpK7xTs54jlEXog0CHLTiaUlA",
     authDomain: "test-53443.firebaseapp.com",
@@ -38,39 +45,128 @@ let classes = document.getElementById("classes")
 classes.innerHTML = `
 <option value="0" disabled selected>Open this select menu</option>
 `
+let count = 0;
 querySnapshot.forEach((doc) => {
     classes.innerHTML += `
-        <option>${doc.data().current_teacher} ${doc.data().batch} ${doc.data().timing} ${doc.data().schedule} ${doc.data().course}</option>
+        <option >${doc.data().current_teacher} ${doc.data().batch} ${doc.data().timing} ${doc.data().schedule} ${doc.data().course}</option>
 `
+
     console.log(`${doc.id} => ${doc.data()}`);
 });
+let obj = {}
 
 
 let addStudent = async () => {
     let studentData = document.querySelectorAll("#v-pills-profile input")
     console.log(studentData)
     for (let i = 0; i < studentData.length; i++) {
-        console.log(studentData[i])
-
+        console.log(studentData[i].value)
+        if (studentData[i].value.trim() == "") {
+            studentData[i].style.border = "1px solid red"
+        }
+        else {
+            obj = {
+                studentName: studentData[++i].value,
+                fatherName: studentData[++i].value,
+                rollNum: studentData[++i].value,
+                contactNo: studentData[++i].value,
+                CNIC: studentData[++i].value,
+                course: "",
+                url: ""
+            }
+            setTimeout(() => {
+                studentData[i].style.border = "1px solid black"
+            }, 2000)
+            break
+        }
     }
 
-    if (studentData[0].trim() && studentData[1].trim() && studentData[2].trim() && studentData[3].trim() && studentData[4].trim() && studentData[5].trim()) {
-        console.log("hi")
-    }
-    studentData.forEach(async element => {
-        console.log("hi")
-        const docRef = await addDoc(collection(db, "classList"), {
-            timing: result1,
-            schedule: result2,
-            current_teacher: result3,
-            section: result4,
-            course: result5,
-            batch: result5
-        });
-        swal(`Class Added Successfully`)
-        console.log("Document written with ID: ", docRef.id);
-    })
+
+
+
+
+    let course = document.getElementById("classes")
+    let courseDetail = course.options[course.selectedIndex].value;
+    console.log(course.value)
+
+    let file = document.querySelector("#studentPic").files[0]
+    console.log(file)
+    let url = await uploadFiles(file);
+    obj.url = url;
+    console.log(obj)
+    console.log(url)
+
+    const docRef = await addDoc(collection(db, "studentData"), obj);
+    swal(`Class Added Successfully`)
+    console.log("Document written with ID: ", docRef.id);
+    //  copied
+
+
+
 }
+
+
+const uploadFiles = (file) => {
+    event.preventDefault();
+    return new Promise((resolve, reject) => {
+        const storage = getStorage();
+
+        const storageRef = ref(storage, `student/${obj.CNIC}.png`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log("Upload is " + progress + "% done");
+                switch (snapshot.state) {
+                    case "paused":
+                        console.log("Upload is paused");
+                        break;
+                    case "running":
+                        console.log("Upload is running");
+                        break;
+                }
+            },
+            (error) => {
+                reject(error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    resolve(downloadURL);
+                });
+            }
+        );
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+// if (studentData[0].trim() && studentData[1].trim() && studentData[2].trim() && studentData[3].trim() && studentData[4].trim() && studentData[5].trim()) {
+//     console.log("hi")
+// }
+// // studentData.forEach(element => {
+// //     console.log("hi")
+// //     const docRef = await addDoc(collection(db, "classList"), {
+// //         timing: result1,
+// //         schedule: result2,
+// //         current_teacher: result3,
+// //         section: result4,
+// //         course: result5,
+// //         batch: result5
+// //     });
+// swal(`Class Added Successfully`)
+// console.log("Document written with ID: ", docRef.id);
+
+
 
 let addClass = async () => {
     // console.log(event.target)
